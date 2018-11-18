@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'permintaan' %}">Permintaan Barang</a></li>
+    <li class="breadcrumb-item active">Detail Permintaan</li>
+{% endblock %}
+
+{% block content %}
+    {#    <div class="alert alert-success alert-dismissable">#}
+    {#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+    {#        Selamat datang di aplikasi simpatik, ini adalah halaman detail permintaan barang. Silakan review kembali barang#}
+    {#        Anda sebelum diajukan ke admin.#}
+    {#    </div>#}
+    {% if carts.count > 0 %}
+        <table class="table table-striped mb-4">
+            <thead class="thead-inverse">
+            <tr>
+                <th>No</th>
+                <th>Gambar</th>
+                <th>Barang</th>
+                <th>Deskripsi</th>
+                <th>Jumlah</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart in carts %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <p class="mb-0">
+                            <img src="{{ cart.cart_item.picture.url }}" width="80"/>
+                        </p>
+                    </td>
+                    <td>{{ cart.cart_item }}</td>
+                    <td>{{ cart.cart_item.description }}</td>
+                    <td>{{ cart.item_qty }}</td>
+                    <td>
+                        <a href="{% url 'delete_cart_item' cart.id %}" class="btn btn-danger">Hapus</a>
+                    </td>
+                </tr>
+                </tbody>
+            {% endfor %}
+
+        </table>
+    {% else %}
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            Tidak ada barang
+        </div>
+    {% endif %}
+
+    {% include 'includes/pagination.html' %}
+
+    <div class="mb-3">
+        <form method="post" class="mb-4" novalidate>
+            <a href="{% url 'permintaan' %}" class="btn btn-outline-secondary" role="button">Batal</a>
+            {% if carts.count > 0 %}
+                <a href="{% url 'submit_request' %}" class="btn btn-primary">Ajukan Permintaan Barang</a>
+            {% endif %}
+        </form>
+    </div>
+
+
+{% endblock %}

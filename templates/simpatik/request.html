@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item active">Permintaan Barang</li>
+{% endblock %}
+
+{% block content %}
+{#    <div class="alert alert-success alert-dismissable">#}
+{#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+{#        Selamat datang di aplikasi simpatik, ini adalah halaman pengaturan barang.#}
+{#    </div>#}
+{#    <H5>Permintaan Barang</H5>#}
+    <table class="table table-striped mb-4">
+        <thead class="thead-inverse">
+        <tr>
+            <th>Nomer Permintaan</th>
+            <th>Status</th>
+            <th>Oleh</th>
+            <th>Waktu</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for trans in transactions %}
+            <tr>
+                <td>{{ trans.transaction_no }}</td>
+                <td>{{ trans.transaction_sts }}</td>
+                <td>{{ trans.tr_created_by }}</td>
+                <td>{{ trans.tr_created_dt |naturaltime }}</td>
+                <td><a href="{% url 'request_detail' trans.pk %}">Detail transaksi</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'includes/pagination.html' %}
+
+{% endblock %}

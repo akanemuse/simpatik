@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item active">Permintaan Barang</li>
+{% endblock %}
+
+{% block content %}
+{#    <div class="alert alert-success alert-dismissable">#}
+{#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+{#        Selamat datang di aplikasi simpatik, ini adalah halaman permintaan barang. Silakan pilih barang, kemudian#}
+{#        lanjutkan dengan checkout.#}
+{#    </div>#}
+
+    {% for item in items %}
+        {% if forloop.counter0|divisibleby:3 %}
+            <div class="row text-center"> {% endif %}
+    <div class="col-md-4 js-update-book" style="cursor: pointer">
+        <a href="{% url 'book' item.pk %}">
+            <div class="card">
+                <div class="center-block"><img src="{{ item.picture.url }}" class="center-block" height="200"
+                                               width="200">
+                </div>
+                <div class="card-content">
+                    <h4>{{ item.name }}</h4>
+                    <p>{{ item.description }}</p>
+                    <small class="align-right">Tersedia: {{ item.tersedia }} buah</small>
+
+                </div><!-- card content -->
+            </div><!-- card -->
+        </a>
+    </div><!-- col-md-4 -->
+    {% if forloop.counter|divisibleby:3 or forloop.last %}</div><!-- row closing -->
+        <div class="mb-2"></div>{% endif %}
+    {% endfor %}
+
+    {% include 'includes/pagination.html' %}
+
+    {#    <div class="modal fade" id="modal-book" style="width: 200px">#}
+    {#        <div class="modal-dialog">#}
+    {#            <div class="modal-content">#}
+    {##}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}
+
+{#{% block javascript %}#}
+{#    <script src="{% static 'v1/js/js-book.js' %}"></script>#}
+{#{% endblock %}#}

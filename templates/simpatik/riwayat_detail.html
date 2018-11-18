@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'riwayat' %}">Riwayat Permintaan</a></li>
+    <li class="breadcrumb-item active">Detail Permintaan: {{ transaction.transaction_no }}</li>
+{% endblock %}
+
+{% block content %}
+    {#    <div class="alert alert-success alert-dismissable">#}
+    {#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+    {#        Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to#}
+    {#        use this template for your admin needs! We are using a few different plugins to handle the dynamic tables and#}
+    {#        charts, so make sure you check out the necessary documentation links provided.#}
+    {#    </div>#}
+
+{#    <H5>Permintaan Barang No. {{ transaction.transaction_no }}</H5>#}
+    <table class="table table-striped mb-4">
+        <thead class="thead-inverse">
+        <tr>
+            <th>No</th>
+            <th>Gambar</th>
+            <th>Barang</th>
+            <th>Deskripsi</th>
+            <th>Jumlah</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in transaction_detail %}
+            <tr>
+                <td>{{ item.seq_no }}</td>
+                <td>
+                    <p class="mb-0">
+                        <img src="{{ item.item.picture.url }}" width="80"/>
+                    </p>
+                </td>
+                <td>{{ item.item }}</td>
+                <td>{{ item.item.description }}</td>
+                <td>{{ item.detail_qty }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'includes/pagination.html' %}
+
+
+{% endblock %}

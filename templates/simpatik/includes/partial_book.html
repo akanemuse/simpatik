@@ -1,0 +1,36 @@
+{% load widget_tweaks %}
+
+{#<div class="modal-header">#}
+{#    <h4 class="modal-title">Tambahkan ke barang Anda</h4>#}
+{#</div>#}
+
+<div class="modal-body" style="text-align: center">
+    <div class="form-group">
+        <H5>{{ item.name }}</H5>
+        <div class="center-block mb-3"><img src="{{ item.picture.url }}" class="center-block" height="100"
+                                       width="100">
+        </div>
+    </div>
+    <div class="form-group" style="text-align: center">
+        <div style="text-align: center">
+            <form method="post" class="js-book-update-form">
+                {% csrf_token %}
+                {#            {% include 'includes/form.html' %}#}
+
+                {% for field in form %}
+                    <div class="form-group{% if field.errors %} has-error{% endif %}">
+                        {% render_field field class="form-control" %}
+                        {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Update book</button>
+</div>

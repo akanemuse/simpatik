@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Beranda</li>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-success alert-dismissable">
+        {#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+        Selamat datang di Simpatik, Sistem Pengelolaan ATK secara Elektronik.
+    </div>
+
+    {% if user.is_staff %}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="fa fa-money"></i> Permintaan yang menunggu untuk di setujui: </h6>
+            </div>
+            <table class="table table-striped mb-4">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Nomer Permintaan</th>
+                    <th>Status</th>
+                    <th>Oleh</th>
+                    <th>Waktu</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trans in transactions %}
+                    <tr>
+                        <td>{{ trans.transaction_no }}</td>
+                        <td>{{ trans.transaction_sts }}</td>
+                        <td>{{ trans.tr_created_by }}</td>
+                        <td>{{ trans.tr_created_dt |naturaltime }}</td>
+                        <td><a href="{% url 'request_detail' trans.pk %}">Detail transaksi</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'request' %}">
+                <div class="panel-footer text-lg-right">
+                    <span class="pull-left">Lihat semua...</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    {% endif %}
+
+    {#    {% if user.is_staff %}#}
+    {% if my_requests.count > 0 %}
+        <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title"><i class="fa fa-money"></i> Permintaan saya: </h6>
+        </div>
+
+        <table class="table table-striped mb-4">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Nomer Permintaan</th>
+                <th>Status</th>
+                <th>Oleh</th>
+                <th>Waktu</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for req in my_requests %}
+                <tr>
+                    <td>{{ req.transaction_no }}</td>
+                    <td>{{ req.transaction_sts }}</td>
+                    <td>{{ req.tr_created_by }}</td>
+                    <td>{{ req.tr_created_dt |naturaltime }}</td>
+                    <td><a href="{% url 'riwayat_detail' req.id %}">Detail transaksi</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'riwayat' %}">
+            <div class="panel-footer text-lg-right">
+                <span class="pull-left">Lihat semua...</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+    {% endif %}
+</div>
+    {#        {% endif %}#}
+
+{% endblock %}

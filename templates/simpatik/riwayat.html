@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item active">Riwayat Permintaan Barang</li>
+{% endblock %}
+
+{% block content %}
+    {#    <div class="alert alert-success alert-dismissable">#}
+    {#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+    {#        Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to#}
+    {#        use this template for your admin needs! We are using a few different plugins to handle the dynamic tables and#}
+    {#        charts, so make sure you check out the necessary documentation links provided.#}
+    {#    </div>#}
+
+    {#    <H5>Riwayat Permintaan Barang</H5>#}
+    <table class="table table-striped mb-4">
+        <thead class="thead-inverse">
+        <tr>
+            <th>No.</th>
+            <th>Nomer Permintaan</th>
+            <th>Status</th>
+            <th>Waktu Pengajuan</th>
+            <th>Waktu Selesai</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for trans in transactions %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'riwayat_detail' trans.id %}"> {{ trans.transaction_no }}</a></td>
+                <td>{{ trans.transaction_sts }}</td>
+                <td>{{ trans.tr_created_dt |naturaltime }}</td>
+                <td>{% if trans.tr_updated_dt == None %} - {% else %}
+                    {{ trans.tr_updated_dt |naturaltime }}
+                {% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'includes/pagination.html' %}
+
+{% endblock %}

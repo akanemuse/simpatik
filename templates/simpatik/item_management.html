@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item active">Atur Barang</li>
+{% endblock %}
+
+{% block content %}
+{#    <div class="alert alert-success alert-dismissable">#}
+{#        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>#}
+{#        Selamat datang di aplikasi simpatik, ini adalah halaman pengaturan barang.#}
+{#    </div>#}
+    <div class="mb-3">
+        <a href="{% url 'add_item' %}" class="btn btn-primary">Tambah Barang</a>
+    </div>
+    <table class="table table-striped mb-4">
+        <thead class="thead-inverse">
+        <tr>
+            <th>Gambar</th>
+            <th>Barang</th>
+            <th>Deskripsi</th>
+            <th>Jumlah</th>
+            <th>Jumlah booking</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>
+                    <p class="mb-0">
+                        <img src="{{ item.picture.url }}" width="80"/>
+                    </p>
+                </td>
+                <td><a href="{% url 'edit_item' item.pk %}">{{ item.name }}</a></td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.booked_quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'includes/pagination.html' %}
+
+{% endblock %}

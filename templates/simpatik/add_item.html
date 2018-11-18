@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load widget_tweaks static %}
+
+{% block title %}Tambah Barang Baru{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'item_management' %}">Atur Barang</a></li>
+    <li class="breadcrumb-item active">Tambah Barang</li>
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="mb-4" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <a href="{% url 'item_management' %}" class="btn btn-outline-secondary" role="button">Batal</a>
+        <button type="submit" class="btn btn-success">Tambah</button>
+    </form>
+{% endblock %}
+
+{#{% block stylesheet %}#}
+{#  <link rel="stylesheet" href="{% static 'v1/css/simplemde.min.css' %}">#}
+{#{% endblock %}#}
+{##}
+{#{% block javascript %}#}
+{#  <script src="{% static 'v1/js/simplemde.min.js' %}"></script>#}
+{#  <script>#}
+{#    var simplemde = new SimpleMDE();#}
+{#  </script>#}
+{#{% endblock %}#}

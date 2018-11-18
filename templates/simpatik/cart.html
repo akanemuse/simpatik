@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load widget_tweaks static %}
+
+{% block title %}Tambah Permintaan{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'permintaan' %}">Permintaan</a></li>
+    <li class="breadcrumb-item active">Tambah Permintaan</li>
+{% endblock %}
+
+{% block content %}
+    <div class="form-group">
+        <H5>{{ item.name }}</H5>
+        <div class="center-block mb-3 mr-lg-5"><img src="{{ item.picture.url }}" class="center-block" height="300"
+                                            width="300">
+
+        </div>
+        <div>{{ item.description }}</div>
+
+    </div>
+    <form method="post" class="mb-4" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <a href="{% url 'permintaan' %}" class="btn btn-outline-secondary" role="button">Batal</a>
+        <button type="submit" class="btn btn-success">Tambah</button>
+    </form>
+{% endblock %}
