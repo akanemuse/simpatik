@@ -17,6 +17,8 @@ from .forms import NewTopicForm, PostForm, AddNewItemForm, AddNewItemCartForm
 from .models import Board, Post, Topic, Item, Cart, Transaction, TransactionDetail, TransactionStatus
 from django.contrib import messages
 import datetime
+import http.client, urllib
+from decouple import config
 
 
 # Create your views here.
@@ -144,6 +146,7 @@ def submit_request(request):
                 Cart.objects.filter(cart_user=request.user).delete()
 
             messages.success(request, 'Permintaan anda berhasil diajukan dengan no: ' + transaction_no)
+            send_notif('Terdapat permintaan baru dengan no: ' + transaction_no, request.user.profile.user_location_id)
             return redirect('permintaan')
         except Exception as e:
             messages.error(request, 'Terjadi kesalahan fatal, silakan hubungi administrator: ' + str(e))
@@ -154,6 +157,19 @@ def submit_request(request):
         messages.error(request, 'Terjadi kesalahan fatal, silakan hubungi administrator: ' +str(ex))
 
     return redirect('home')
+
+def send_notif(messages, location_id):
+    conn = http.client.HTTPSConnection("api.pushover.net:443")
+    key = 'USER_KEY'+str(location_id)
+    user = config(key)
+    conn.request("POST", "/1/messages.json",
+                 urllib.parse.urlencode({
+                     "token": config('APP_TOKEN'),
+                     "user": user,
+                     "title": "Simpatik",
+                     "message": messages,
+                 }), {"Content-type": "application/x-www-form-urlencoded"})
+    conn.getresponse()
 
 @method_decorator(login_required, name='dispatch')
 class Riwayat(ListView):
