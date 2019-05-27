@@ -327,6 +327,17 @@ def v2home(request):
 
 # end
 
+
+
+
+
+
+
+
+
+
+
+################################## boards view
 @method_decorator(login_required, name='dispatch')
 class BoardListView(ListView):
     model = Board
@@ -477,3 +488,4 @@ class PostUpdateView(UpdateView):
         post.save()
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
+################################## boards view
